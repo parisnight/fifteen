@@ -1,0 +1,5 @@
+fifteen
+
+Solves the fifteen (n^2-1, n=4) slider puzzle.
+Heuristic function is variable. 
+
