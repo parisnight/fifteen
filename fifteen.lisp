@@ -1,7 +1,7 @@
 ;;; solve fifteen puzzle     2020.9.10 aor
 
-;(defparameter b #(1 2 3 4 5 6 7 8 9 10 11 12 16 15 14 13))
-(defparameter b #(1 11 3 4 7 10 5 8 9 7 2 12 16 15 14 13))
+(defparameter b #(1 2 3 4 5 6 7 8 9 10 11 12 16 15 14 13))
+;(defparameter b #(1 11 3 4 7 10 5 8 9 7 2 12 16 15 14 13))
 
 (defun rank (b)
   (let ((sum 0))
@@ -40,18 +40,21 @@
   b)
 
 (defparameter oldrank 0)
+(defparameter ply 0)
 (defun next (b)
   (cond
     ((null b) (return-from next nil))
     ((= (rank b) 16) (print "solved")(exit))
     ((>= (rank b) (- oldrank 3))
+     (incf ply)
      (if (> (rank b) oldrank) (setf oldrank (rank b)))
-     (sleep 0.1) (print b) (prin1 (rank b))
+     (sleep 1) (print b) (prin1 (rank b)) (princ " ") (prin1 ply)
      (next (noexists (moveright (copy-seq b))))
      (next (noexists (movedown (copy-seq b))))
      (next (noexists (moveleft (copy-seq b))))
-     (next (noexists (moveup (copy-seq b)))))))
+     (next (noexists (moveup (copy-seq b)))))
+    (t (decf ply) nil)))
 
 (defun game ()
-  (setf oldbs nil oldrank 0)
+  (setf oldbs nil oldrank 0 ply 0)
   (next b))
