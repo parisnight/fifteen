@@ -83,3 +83,40 @@
   ;;(next b)
   (breadth b)
   )
+
+
+;; maintain a copy of game tree independently of call stack
+(defparameter tree (cons b nil))
+
+(defun traverse (b tree)
+  (print (car tree))
+  (cond
+    ((null (car tree)))
+    ((not (every #'= b (car tree)))
+     (dolist (node (cdr tree))
+       (traverse b (cdr node))))))
+
+(defun nextmoves(tree)
+  (print (car tree))
+  (sleep 1)
+  (cond
+    ((null (car tree)))	;end recursion
+    ((eql (rank (car tree)) 16) (print "you won")(quit))
+    (t
+     (push (cons (moveright (copy-seq (car tree))) nil) (cdr tree))
+     (if (not (traverse (car (car (cdr tree))) tree))
+	 (nextmoves (car (cdr tree))))
+
+     (push (cons (movedown (copy-seq (car tree))) nil) (cdr tree))
+     (if (not (traverse (car (car (cdr tree))) tree))
+	 (nextmoves (car (cdr tree))))
+
+     (push (cons (moveleft (copy-seq (car tree))) nil) (cdr tree))
+     (if (not (traverse (car (car (cdr tree))) tree))
+	 (nextmoves (car (cdr tree))))
+
+     (push (cons (moveup (copy-seq (car tree))) nil) (cdr tree))
+     (if (not (traverse (car (car (cdr tree))) tree))
+	 (nextmoves (car (cdr tree))))
+					;(nextmoves (car (cdr tree))))))
+     )))
