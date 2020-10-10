@@ -6,6 +6,16 @@
 ;(defparameter b0 #(1 11 3 4 7 10 5 8 9 7 2 12 16 15 14 13))
 ;(defparameter b0 #(1 7 8 3 6 11 16 14 9 10 5 2 15 4 13 12))
 
+(defun manhattan (b)
+  "calculate manhattan distance summed over all board pieces"
+  (let ((i 0)(sum 0))
+    (mapcar (lambda (e)
+	      (multiple-value-bind (r c) (floor (1- e) *n*)
+		(multiple-value-bind (r1 c1) (floor i *n*)
+		  (setf sum (+ sum (abs (- r r1)) (abs (- c c1))))
+		  (incf i))))
+	    (coerce b 'list)) sum))
+
 (defun rank (b)
   (if (null b) (return-from rank 0))
   (let ((sum 0))
