@@ -128,5 +128,5 @@
      (push (cons (moveup (copy-seq (car tree))) nil) (cdr tree))
      (if (not (traverse (car (car (cdr tree))) tree))
 	 (nextmoves (car (cdr tree))))
-					;(nextmoves (car (cdr tree))))))
+;;(nextmoves (car (cdr tree))))))
      )))
